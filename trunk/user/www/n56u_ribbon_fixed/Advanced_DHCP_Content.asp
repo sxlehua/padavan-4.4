@@ -488,7 +488,7 @@ function changeBgColor(obj, num){
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><a class="help_tooltip" href="javascript:void(0);" onmouseover="openTooltip(this,5,12);"><#LANHostConfig_x_LDNSServer6_itemname#> :</th>
+                                            <th><a class="help_tooltip" href="javascript:void(0);" onmouseover="openTooltip(this,5,12);"><#LANHostConfig_y_LDNSServer6_itemname#> :</th>
                                             <td>
                                                 <input type="text" maxlength="40" class="input" size="15" name="dhcp_dnsv6_y" value="<% nvram_get_x("", "dhcp_dnsv6_y"); %>" onKeyPress="return is_string(this,event);" />
                                             </td>
