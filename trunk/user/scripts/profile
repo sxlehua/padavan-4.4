@@ -12,6 +12,7 @@ if [ "$PS1" ] ; then
 
 fi;
 
+[ -r /etc/storage/profile ] && . /etc/storage/profile
 [ -r /opt/etc/profile ] && . /opt/etc/profile
 
 alias df='df -Th'
