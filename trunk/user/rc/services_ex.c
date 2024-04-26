@@ -294,8 +294,10 @@ start_dns_dhcpd(int is_ap_mode)
 {
 	FILE *fp;
 	int i_verbose, i_dhcp_enable, is_dhcp_used, is_dns_used;
-	char dhcp_start[32], dhcp_end[32], dns_all[64], dnsv6[40];
-	char *ipaddr, *netmask, *gw, *dns1, *dns2, *dns3, *wins, *domain, *dns6;
+	// char dhcp_start[32], dhcp_end[32], dns_all[64], dnsv6[40];
+	// char *ipaddr, *netmask, *gw, *dns1, *dns2, *dns3, *wins, *domain, *dns6;
+	char dhcp_start[32], dhcp_end[32], dns_all[64], dnsv6[80];
+	char *ipaddr, *netmask, *gw, *dns1, *dns2, *dns3, *wins, *domain, *dns6x, *dns6y;
 	const char *storage_dir = "/etc/storage/dnsmasq";
 
 	i_dhcp_enable = is_dhcpd_enabled(is_ap_mode);
@@ -465,10 +467,21 @@ start_dns_dhcpd(int is_ap_mode)
 			
 			/* DNS server */
 			memset(dnsv6, 0, sizeof(dnsv6));
-			dns6 = nvram_safe_get("dhcp_dnsv6_x");
-			if (is_valid_ipv6(dns6))
-				strcpy(dnsv6, dns6);
-			else
+			// dns6 = nvram_safe_get("dhcp_dnsv6_x");
+			// if (is_valid_ipv6(dns6))
+			// 	strcpy(dnsv6, dns6);
+			// else
+			// 	strcpy(dnsv6, "[::]");
+			dns6x = nvram_safe_get("dhcp_dnsv6_x");
+			dns6y = nvram_safe_get("dhcp_dnsv6_y");
+			if (is_valid_ipv6(dns6x))
+				strcat(dnsv6, dns6x);
+			if (is_valid_ipv6(dns6y) && strcmp(dns6y, dns6x)) {
+				if (strlen(dnsv6) > 0)
+					strcat(dnsv6, ",");
+				strcat(dnsv6, dns6y);
+			}
+			if (strlen(dnsv6) == 0)
 				strcpy(dnsv6, "[::]");
 
 			fprintf(fp, "dhcp-option=tag:%s,option6:%d,%s\n", DHCPD_RANGE_DEF_TAG, 23, dnsv6);
